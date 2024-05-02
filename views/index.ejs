@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCS Elections 2024</title>
+  <link rel="shortcut icon" href="#">
+  <script>
+  </script>
+</head>
+<body>
+  <div>
+    <div id="governorContainer">Governor:
+      <div id="governorCount"><%=jsonData.governorCount%></div>
+    </div>
+    <div id="viceGovernorContainer">Vice Governor:
+      <div id="viceGovernorCount"><%=jsonData.viceGovernorCount%></div>
+    </div>
+    <div id="secretaryContainer">Secretary:
+      <div id="secretaryCount"><%=jsonData.secretaryCount%></div>
+    </div>
+    <div id="treasurerContainer">Treasurer:
+      <div id="treasurerCount"><%=jsonData.treasurerCount%></div>
+    </div>
+    <div id="auditorContainer">Auditor:
+      <div id="auditorCount"><%=jsonData.auditorCount%></div>
+    </div>
+    <div id="PROContainer">P.R.O.
+      <div id="PROCount"><%=jsonData.PROCount%></div>
+    </div>
+
+  </div>
+  
+  <script>
+    const governorElement = document.getElementById('governorCount');
+    const viceGovernorElement = document.getElementById('viceGovernorCount');
+    const secretaryElement = document.getElementById('secretaryCount');
+    const treasurerElement = document.getElementById('treasurerCount');
+    const auditorElement = document.getElementById('auditorCount');
+    const PROElement = document.getElementById('PROCount');
+
+    const governorCount = parseInt(governorElement .textContent);
+    const viceGovernorCount = parseInt(viceGovernorElement.textContent);
+    const secretaryCount = parseInt(secretaryElement.textContent);
+    const treasurerCount = parseInt(treasurerElement.textContent);
+    const auditorCount = parseInt(auditorElement.textContent);
+    const PROCount = parseInt(PROElement.textContent);
+
+    let maxCount = 0;
+    if (parseInt(governorCount) > maxCount) maxCount = parseInt(governorCount);
+    if (parseInt(viceGovernorCount) > maxCount) maxCount = parseInt(viceGovernorCount);
+    if (parseInt(secretaryCount) > maxCount) maxCount = parseInt(secretaryCount);
+    if (parseInt(treasurerCount) > maxCount) maxCount = parseInt(treasurerCount);
+    if (parseInt(auditorCount) > maxCount) maxCount = parseInt(auditorCount);
+    if (parseInt(PROCount) > maxCount) maxCount = parseInt(PROCount);
+    console.log(maxCount);
+
+    async function updateData() {
+      try {
+        console.log("data updating");
+        const response = await fetch('/data');
+        const jsonData = await response.json();
+        governorElement.textContent = jsonData.governorCount;
+        viceGovernorElement.textContent = jsonData.viceGovernorCount;
+        secretaryElement.textContent = jsonData.secretaryCount;
+        treasurerElement.textContent = jsonData.treasurerCount;
+        auditorElement.textContent = jsonData.auditorCount;
+        PROElement.textContent = jsonData.PROCount;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    updateData();
+    setInterval(updateData, 4000);
+  </script>
+</body>
+</html>
